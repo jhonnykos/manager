@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ManagerStepsTest {
 
-    ManagerSteps manager = new ManagerSteps();
+    private ManagerSteps manager = new ManagerSteps();
 
     @BeforeEach
     public void addSteps() {

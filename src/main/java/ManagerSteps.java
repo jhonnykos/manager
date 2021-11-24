@@ -3,7 +3,6 @@ import java.util.Map;
 
 public class ManagerSteps {
     public final static int MAX_STEPS = 10_000;
-
     private Map<Integer, Integer> steps;
 
     public ManagerSteps() {
