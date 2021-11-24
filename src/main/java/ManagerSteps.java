@@ -3,7 +3,6 @@ import java.util.Map;
 
 public class ManagerSteps implements Comparable<ManagerSteps> {
     public final static int MAX_STEPS = 10_000;
-
     private Map<Integer, Integer> steps;
 
     public ManagerSteps() {
@@ -40,11 +39,6 @@ public class ManagerSteps implements Comparable<ManagerSteps> {
     @Override
     public int compareTo(ManagerSteps manager) {
         return getSum() - manager.getSum();
-    }
-
-    @Override
-    public String toString() {
-        return Integer.toString(getSum());
     }
 }
 

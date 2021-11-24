@@ -1,10 +1,12 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
 class ManagerStepsTest {
 
@@ -13,6 +15,7 @@ class ManagerStepsTest {
     private ManagerSteps manager3 = new ManagerSteps();
     private ManagerSteps manager4 = new ManagerSteps();
     private List<ManagerSteps> managers = new ArrayList<>();
+    ManagerSteps managerMock = Mockito.mock(ManagerSteps.class);
 
     private ManagerStepsComparator comp = new ManagerStepsComparator(5000);
 
@@ -293,6 +296,4 @@ class ManagerStepsTest {
         assertEquals(expected, actual, "Список должен сортироваться по возрастанию количества дней, " +
                 "в которые было сделано количество шагов, большее или равное минимальному");
     }
-
-
 }

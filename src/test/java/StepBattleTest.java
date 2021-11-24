@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StepBattleTest {
 
-    ManagerSteps managerFirst = Mockito.mock(ManagerSteps.class);
-    ManagerSteps managerSecond = Mockito.mock(ManagerSteps.class);
-    ManagerSteps managerEmpty = Mockito.mock(ManagerSteps.class);
-    Map<Integer, Integer> stepsFirst;
-    Map<Integer, Integer> stepsSecond;
-    Map<Integer, Integer> stepsEmpty;
-    StepBattle battle;
+    private ManagerSteps managerFirst = Mockito.mock(ManagerSteps.class);
+    private ManagerSteps managerSecond = Mockito.mock(ManagerSteps.class);
+    private ManagerSteps managerEmpty = Mockito.mock(ManagerSteps.class);
+    private Map<Integer, Integer> stepsFirst;
+    private Map<Integer, Integer> stepsSecond;
+    private Map<Integer, Integer> stepsEmpty;
+    private StepBattle battle;
 
     @BeforeEach
     public void initBattle() {
