@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class ManagerSteps {
+public class ManagerSteps implements Comparable<ManagerSteps> {
     public final static int MAX_STEPS = 10_000;
 
     private Map<Integer, Integer> steps;
@@ -27,6 +27,24 @@ public class ManagerSteps {
 
     public Map<Integer, Integer> getSteps() {
         return this.steps;
+    }
+
+    public int getSum() {
+        int sum = 0;
+        for (int key : steps.keySet()) {
+            sum += steps.get(key);
+        }
+        return sum;
+    }
+
+    @Override
+    public int compareTo(ManagerSteps manager) {
+        return getSum() - manager.getSum();
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(getSum());
     }
 }
 
