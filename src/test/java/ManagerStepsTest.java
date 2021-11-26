@@ -33,7 +33,7 @@ class ManagerStepsTest {
         manager2.add(1, 5000);
         manager2.add(5, 20_000);
         manager2.add(10, 3000);
-    } //sum: 28, days: 2
+    } //sum: 28, days: 1
 
     @BeforeEach
     public void addStepsThird() {
@@ -50,7 +50,7 @@ class ManagerStepsTest {
     } //sum: 23, days:2
 
     @BeforeEach
-    public void addManagers(){
+    public void addManagers() {
         managers.add(manager);
         managers.add(manager2);
         managers.add(manager3);
@@ -220,21 +220,21 @@ class ManagerStepsTest {
 
     //Comparator
     @Test
-    public void shouldCompareManagersIfFirstLess(){
+    public void shouldCompareManagersIfFirstLess() {
         int actual = comp.compare(manager2, manager);
         assertTrue(actual < 0, "В manager2 больше дней с количеством шагов больше или равному " +
                 "минимальному, чем в manager (2 и 3 соответственно)");
     }
 
     @Test
-    public void shouldCompareManagersIfFirstGreater(){
+    public void shouldCompareManagersIfFirstGreater() {
         int actual = comp.compare(manager, manager2);
         assertTrue(actual > 0, "В manager больше дней с количеством шагов больше или равному " +
                 "минимальному, чем в manager2 (3 и 2 соответственно)");
     }
 
     @Test
-    public void shouldCompareManagersIfFirstEqualsAndSameOrder(){
+    public void shouldCompareManagersIfFirstEqualsAndSameOrder() {
         manager2 = new ManagerSteps();
         {
             manager2.add(1, 5000);
@@ -243,14 +243,14 @@ class ManagerStepsTest {
             manager2.add(6, 11_000);
             manager2.add(1, 4000);
         }
-        int expected =0;
+        int expected = 0;
         int actual = comp.compare(manager, manager2);
         assertEquals(expected, actual, "Одинаковое количество дней с количеством шагов, " +
                 "большим или равным минимальному");
     }
 
     @Test
-    public void shouldCompareManagersIfFirstEqualsAndDiffOrder(){
+    public void shouldCompareManagersIfFirstEqualsAndDiffOrder() {
         manager2 = new ManagerSteps();
         {
             manager2.add(5, 8000);
@@ -258,24 +258,23 @@ class ManagerStepsTest {
             manager2.add(2, 3000);
             manager2.add(6, 11_000);
         }
-        int expected =0;
+        int expected = 0;
         int actual = comp.compare(manager, manager2);
         assertEquals(expected, actual, "Одинаковое количество дней с количеством шагов, " +
                 "большим или равным минимальному");
     }
 
     @Test
-    public void shouldCompareManagersIfFirstEqualsAndDiff(){
+    public void shouldCompareManagersIfFirstEqualsAndDiff() {
         manager2 = new ManagerSteps();
         {
             manager2.add(15, 3000);
             manager2.add(10, 9000);
-            manager2.add(15,1000);
-            manager2.add(10,1000);
-            manager2.add(3, 5000);
+            manager2.add(15, 3000);
+            manager2.add(10, 1000);
             manager2.add(6, 11_000);
         }
-        int expected =0;
+        int expected = 0;
         int actual = comp.compare(manager, manager2);
         assertEquals(expected, actual, "Одинаковое количество дней с количеством шагов, " +
                 "большим или равным минимальному");
@@ -285,8 +284,8 @@ class ManagerStepsTest {
     public void shouldSortByDays() {
         List<ManagerSteps> expected = new ArrayList<>();
         {
+            expected.add(manager2); //1
             expected.add(manager3); //1
-            expected.add(manager2); //2
             expected.add(manager4); //2
             expected.add(manager); //3
         }

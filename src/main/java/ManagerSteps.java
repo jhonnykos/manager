@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ManagerSteps implements Comparable<ManagerSteps> {
     public final static int MAX_STEPS = 10_000;

@@ -20,7 +20,7 @@ public class ManagerStepsComparator implements Comparator<ManagerSteps> {
         int count = 0;
         Map<Integer, Integer> steps = manager.getSteps();
         for (int key : steps.keySet()) {
-            if (steps.get(key) >= minSteps) {
+            if (steps.get(key) > minSteps) {
                 count++;
             }
         }
