@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 
 class ManagerStepsTest {
 
@@ -15,7 +15,6 @@ class ManagerStepsTest {
     private ManagerSteps manager3 = new ManagerSteps();
     private ManagerSteps manager4 = new ManagerSteps();
     private List<ManagerSteps> managers = new ArrayList<>();
-    ManagerSteps managerMock = Mockito.mock(ManagerSteps.class);
 
     private ManagerStepsComparator comp = new ManagerStepsComparator(5000);
 
@@ -294,5 +293,40 @@ class ManagerStepsTest {
         Collections.sort(actual, comp);
         assertEquals(expected, actual, "Список должен сортироваться по возрастанию количества дней, " +
                 "в которые было сделано количество шагов, большее или равное минимальному");
+    }
+
+
+    //Stream
+    @Test
+    public void shouldReturnStream() {
+        List<Integer> expected = new ArrayList();
+        Collections.addAll(expected, 1, 5, 6);
+
+        List<Integer> actual =
+                manager.getAllAbove(5000)
+                        .collect(Collectors.toList());
+        assertEquals(expected, actual, "Метод должен возвращать стрим с днями, " +
+                "в которые было сделано больше чем 5000 шагов");
+    }
+
+    @Test
+    public void shouldReturnStreamIfEmpty() {
+        List<Integer> expected = new ArrayList();
+
+        List<Integer> actual =
+                manager.getAllAbove(15000)
+                        .collect(Collectors.toList());
+        assertEquals(expected, actual, "Метод должен возвращать пустой стрим");
+    }
+
+    @Test
+    public void shouldReturnStreamIfAll() {
+        List<Integer> expected = new ArrayList();
+        Collections.addAll(expected, 1, 2, 5, 6);
+
+        List<Integer> actual =
+                manager.getAllAbove(1000)
+                        .collect(Collectors.toList());
+        assertEquals(expected, actual, "Метод должен возвращать пустой стрим");
     }
 }

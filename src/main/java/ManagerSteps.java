@@ -37,6 +37,11 @@ public class ManagerSteps implements Comparable<ManagerSteps> {
         return sum;
     }
 
+    public Stream<Integer> getAllAbove(int steps){
+        return this.steps.keySet().stream()
+                .filter(k -> this.steps.get(k) > steps);
+    }
+
     @Override
     public int compareTo(ManagerSteps manager) {
         return getSum() - manager.getSum();
