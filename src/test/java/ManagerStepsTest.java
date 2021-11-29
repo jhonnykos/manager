@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -105,20 +103,6 @@ class ManagerStepsTest {
         int expected = 0;
         int actual = manager.add(10, 10_000);
         Assertions.assertEquals(expected, actual, "Метод должен возвращать 0");
-    }
-
-    @Test
-    public void shouldReturnErrorIfNegativeSteps() {
-        int expected = -1;
-        int actual = manager.add(1, -5000);
-        Assertions.assertEquals(expected, actual, "Метод должен возвращать -1");
-    }
-
-    @Test
-    public void shouldReturnErrorIfNegativeDay() {
-        int expected = -1;
-        int actual = manager.add(-1, 5000);
-        Assertions.assertEquals(expected, actual, "Метод должен возвращать -1");
     }
 
 
@@ -328,5 +312,116 @@ class ManagerStepsTest {
                 manager.getAllAbove(1000)
                         .collect(Collectors.toList());
         assertEquals(expected, actual, "Метод должен возвращать пустой стрим");
+    }
+
+
+    //Exception
+    @Test
+    public void shouldThrowsExceptionDayUpperBound() {
+        int day = 0;
+        int steps = 5000;
+        assertThrows(IllegalDayException.class, () -> {
+            manager.add(day, steps);
+        });
+    }
+
+    @Test
+    public void shouldThrowsExceptionDayLowerBound() {
+        int day = 366;
+        int steps = 5000;
+        assertThrows(IllegalDayException.class, () -> {
+            manager.add(day, steps);
+        });
+    }
+
+    @Test
+    public void shouldThrowsExceptionDayIfNegative() {
+        int day = -15;
+        int steps = 5000;
+        assertThrows(IllegalDayException.class, () -> {
+            manager.add(day, steps);
+        });
+    }
+
+    @Test
+    public void shouldThrowsExceptionDayIfGreater() {
+        int day = 500;
+        int steps = 5000;
+        assertThrows(IllegalDayException.class, () -> {
+            manager.add(day, steps);
+        });
+    }
+
+    @Test
+    public void shouldThrowsExceptionDayIfLowerBoundPositive() {
+        int day = 1;
+        int steps = 5000;
+        try {
+            manager.add(day, steps);
+        } catch (IllegalDayException e) {
+            fail("Метод не должен вызывать исключение IllegalDayException");
+        }
+    }
+
+    @Test
+    public void shouldThrowsExceptionDayIfUpperBoundPositive() {
+        int day = 365;
+        int steps = 5000;
+        try {
+            manager.add(day, steps);
+        } catch (IllegalDayException e) {
+            fail("Метод не должен вызывать исключение IllegalDayException");
+        }
+    }
+
+    @Test
+    public void shouldThrowsExceptionDayIfPositive() {
+        int day = 150;
+        int steps = 5000;
+        try {
+            manager.add(day, steps);
+        } catch (IllegalDayException e) {
+            fail("Метод не должен вызывать исключение IllegalDayException");
+        }
+    }
+
+    @Test
+    public void shouldThrowsExceptionStepsUpperBound() {
+        int day = 150;
+        int steps = 0;
+        assertThrows(IllegalStepsException.class, () -> {
+            manager.add(day, steps);
+        });
+    }
+
+    @Test
+    public void shouldThrowsExceptionStepsIfLower() {
+        int day = 150;
+        int steps = -15;
+        assertThrows(IllegalStepsException.class, () -> {
+            manager.add(day, steps);
+        });
+    }
+
+    @Test
+    public void shouldThrowsExceptionStepsIfLowerBoundPositive() {
+        int day = 150;
+        int steps = 1;
+        try {
+            manager.add(day, steps);
+        } catch (IllegalStepsException e) {
+            fail("Метод не должен вызывать исключение IllegalStepsException");
+        }
+    }
+
+    @Test
+    public void shouldThrowsExceptionStepsIfPositive() {
+        int day = 150;
+        int steps = 5000;
+        try {
+            manager.add(day, steps);
+        } catch (IllegalStepsException e) {
+            fail("Метод не должен вызывать исключение IllegalStepsException");
+        }
     }
 }

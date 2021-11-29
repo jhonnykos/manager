@@ -11,8 +11,12 @@ public class ManagerSteps implements Comparable<ManagerSteps> {
     }
 
     public int add(int day, int steps) {
-        if (steps < 0 || day < 0) return -1;
-
+        if (day < 1 || day > 365) {
+            throw new IllegalDayException(day);
+        }
+        if (steps <= 0) {
+            throw new IllegalStepsException(steps);
+        }
         if (this.steps.containsKey(day)) {
             this.steps.put(day, this.steps.get(day) + steps);
         } else {
@@ -37,7 +41,7 @@ public class ManagerSteps implements Comparable<ManagerSteps> {
         return sum;
     }
 
-    public Stream<Integer> getAllAbove(int steps){
+    public Stream<Integer> getAllAbove(int steps) {
         return this.steps.keySet().stream()
                 .filter(k -> this.steps.get(k) > steps);
     }
