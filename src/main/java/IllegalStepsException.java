@@ -1,5 +1,5 @@
 public class IllegalStepsException extends IllegalArgumentException{
-    public IllegalStepsException(int steps){
+    public IllegalStepsException(Integer steps){
         super("Количество шагов должно быть положительным. Текущее значение: " + steps);
     }
 }
