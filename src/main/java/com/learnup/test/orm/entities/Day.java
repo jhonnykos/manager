@@ -1,4 +1,4 @@
-package com.learnup.test.jbdc.entities;
+package com.learnup.test.orm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

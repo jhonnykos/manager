@@ -1,5 +1,5 @@
-import com.learnup.test.jbdc.DbHelper;
-import com.learnup.test.jbdc.entities.Day;
+import com.learnup.test.orm.DbHelper;
+import com.learnup.test.orm.entities.Day;
 
 public class ManagerStepsDb {
 

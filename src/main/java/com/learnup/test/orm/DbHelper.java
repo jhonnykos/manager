@@ -1,6 +1,6 @@
-package com.learnup.test.jbdc;
+package com.learnup.test.orm;
 
-import com.learnup.test.jbdc.entities.Day;
+import com.learnup.test.orm.entities.Day;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -10,12 +10,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 
 import javax.persistence.PersistenceException;
-import java.io.Serializable;
-import java.sql.*;
 import java.util.List;
 
 public class DbHelper {
-    //    private Connection connection;
     SessionFactory sessionFactory;
 
     public DbHelper() {
@@ -35,11 +32,9 @@ public class DbHelper {
     public Integer getStepsByDay(Integer dayInt) {
         try (Session session = sessionFactory.openSession()) {
             final Day day = session.find(Day.class, dayInt);
-//            final Query<Day> result = session.createQuery("from Day", Day.class);
-            if(day!=null) {
+            if (day != null) {
                 return day.getSteps();
-            }
-            else {
+            } else {
                 return null;
             }
         } catch (PersistenceException e) {
