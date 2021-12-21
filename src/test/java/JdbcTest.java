@@ -34,18 +34,18 @@ public class JdbcTest {
 
     @Test
     public void addStepsDaysExist() {
-        days = List.of(1, 2, 6);
+        days = List.of(3, 5, 7);
         List<Integer> expected = List.of(8000, 1500, 7000);
 
-        manager.addDay(1, 4000);
-        manager.addDay(2, 1500);
-        manager.addDay(6, 7000);
-        manager.addDay(1, 4000);
+        manager.addDay(3, 4000);
+        manager.addDay(5, 1500);
+        manager.addDay(7, 7000);
+        manager.addDay(3, 4000);
 
         List<Integer> actual = List.of(
-                manager.getStepsByDay(1),
-                manager.getStepsByDay(2),
-                manager.getStepsByDay(6)
+                manager.getStepsByDay(3),
+                manager.getStepsByDay(5),
+                manager.getStepsByDay(7)
         );
         assertEquals(expected, actual, "Метод должен добавлять шаги в уже существующий день");
     }
@@ -54,7 +54,7 @@ public class JdbcTest {
     public void throwExceptionIfStepsNull() {
         days = new ArrayList<>();
         assertThrows(IllegalStepsException.class, () -> {
-            manager.addDay(1, null);
+            manager.addDay(10, null);
         });
     }
 
@@ -62,11 +62,11 @@ public class JdbcTest {
     public void notAddStepsIfStepsNull() {
         days = new ArrayList<>();
         try {
-            manager.addDay(1, null);
+            manager.addDay(11, null);
         } catch (IllegalStepsException e) {
             e.printStackTrace();
         }
-        assertNull(manager.getStepsByDay(1));
+        assertNull(manager.getStepsByDay(11));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class JdbcTest {
 
     @AfterEach
     public void tearDown() {
-        if(days != null) {
+        if (days != null) {
             days.forEach(d -> manager.deleteDay(d));
         }
     }

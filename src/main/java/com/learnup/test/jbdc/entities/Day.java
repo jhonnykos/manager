@@ -1,7 +1,20 @@
 package com.learnup.test.jbdc.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="manager")
 public class Day {
+    @Id
     Integer day;
+
+    public Day() {
+    }
+
+    @Column(name = "steps")
     Integer steps;
 
     public Day(Integer day, Integer steps) {

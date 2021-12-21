@@ -1,69 +1,87 @@
 package com.learnup.test.jbdc;
 
 import com.learnup.test.jbdc.entities.Day;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
+
+import javax.persistence.PersistenceException;
+import java.io.Serializable;
 import java.sql.*;
+import java.util.List;
 
 public class DbHelper {
-    private Connection connection;
+    //    private Connection connection;
+    SessionFactory sessionFactory;
 
-    public DbHelper(String dbUrl, String username, String password) {
-        try {
-            this.connection = DriverManager.getConnection(dbUrl, username, password);
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+    public DbHelper() {
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        final Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
+        this.sessionFactory = metadata.getSessionFactoryBuilder().build();
+    }
+
+    public List<Day> getAllDays() {
+        try (Session session = sessionFactory.openSession()) {
+            final Day day = session.find(Day.class, 1);
+            final Query<Day> result = session.createQuery("from Day", Day.class);
+            return result.getResultList();
         }
     }
 
-    public boolean addDay(Day day) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO manager(day, steps) VALUES(?, ?);");
-            statement.setInt(1, day.getDay());
-            statement.setInt(2, day.getSteps());
-            int modifyCount = statement.executeUpdate(); //кол-во измененных строк
-            return modifyCount > 0;
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+    public Integer getStepsByDay(Integer dayInt) {
+        try (Session session = sessionFactory.openSession()) {
+            final Day day = session.find(Day.class, dayInt);
+//            final Query<Day> result = session.createQuery("from Day", Day.class);
+            if(day!=null) {
+                return day.getSteps();
+            }
+            else {
+                return null;
+            }
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return null;
         }
-        return false;
+
+    }
+
+    public boolean addDay(Day day) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.save(day);
+            session.getTransaction().commit();
+            return true;
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean updateDay(Day day) {
         int steps = getStepsByDay(day.getDay());
-        try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE manager SET steps = ? WHERE day = ?;");
-            statement.setInt(1, steps + day.getSteps());
-            statement.setInt(2, day.getDay());
-            int modifyCount = statement.executeUpdate();
-            return modifyCount > 0;
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.update(new Day(day.getDay(), day.getSteps() + steps));
+            session.getTransaction().commit();
+            return true;
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
-    public Integer getStepsByDay(Integer day) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM manager WHERE day = ?;");
-            statement.setInt(1, day);
-            ResultSet result = statement.executeQuery();
-            if (result.next()) {
-                return result.getInt("steps");
-            }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+    public boolean deleteDay(Integer dayInt) {
+        try (Session session = sessionFactory.openSession()) {
+            Day dayForDelete = session.load(Day.class, dayInt);
+            session.delete(dayForDelete);
+            return true;
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return false;
         }
-        return null;
-    }
-
-    public boolean deleteDay(Integer day){
-        try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM manager WHERE day = ?;");
-            statement.setInt(1, day);
-            int modifyCount = statement.executeUpdate();
-            return modifyCount > 0;
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-        return false;
     }
 }
